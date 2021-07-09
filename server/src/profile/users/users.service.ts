@@ -3,45 +3,62 @@ import { CreateUsersDto } from './dto/create-users.dto';
 import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersEntity } from './entities/users.entity';
 import { UsersRepository } from './users.repository';
-// import { validate } from 'class-validator';
+import { InjectRepository } from '@nestjs/typeorm';
+import { validate } from 'class-validator';
+import { Repository } from 'typeorm';
+import { Logger } from '@nestjs/common';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) { }
+  private static readonly logger = new Logger(UsersService.name);
+  constructor(
+    @InjectRepository(UsersEntity)
+    private usersRepository: Repository<UsersEntity>,
+  ) {}
 
-  async create(createUsersDto: CreateUsersDto) {
-    let newUser = new UsersEntity();
-    newUser.intra_id = createUsersDto.intra_id;
-    newUser.nickname = createUsersDto.nickname;
-    newUser.auth_token = createUsersDto.auth_token;
-    newUser.icon_path = createUsersDto.icon_path;
-    // const validate_error = await validate(newUser);
-    // if (validate_error.length > 0) {
-    //   const _error = { username: 'UserInput is not valid check type' };
-    //   throw new HttpException(
-    //     { message: 'Input data validation failed', _error },
-    //     HttpStatus.BAD_REQUEST,
-    //   );
-    // } else {}
-    const usersEntity = await this.usersRepository.save(newUser).then((v) => v)
-    console.log("✅users created: ")
-    console.log(usersEntity)
-    return 'This action adds a new user';
+  async create(createUsersDto: CreateUsersDto): Promise<UsersEntity> {
+    // let newUser = new UsersEntity();
+    // newUser.intra_id = createUsersDto.intra_id;
+    // newUser.nickname = createUsersDto.nickname;
+    // newUser.auth_token = createUsersDto.auth_token;
+    // newUser.icon_path = createUsersDto.icon_path;
+    // // const validate_error = await validate(newUser);
+    // // if (validate_error.length > 0) {
+    // //   const _error = { username: 'UserInput is not valid check type' };
+    // //   throw new HttpException(
+    // //     { message: 'Input data validation failed', _error },
+    // //     HttpStatus.BAD_REQUEST,
+    // //   );
+    // // } else {}
+    // const usersEntity = await this.usersRepository.save(newUser).then((v) => v);
+    try {
+      const result = await this.usersRepository.save(createUsersDto);
+      UsersService.logger.debug(result);
+      return result;
+    } catch (error) {
+      UsersService.logger.debug(error);
+      throw error;
+    }
+    // return usersEntity;
   }
 
-  findAll() {
+  findAll(): Promise<UsersEntity[]> {
     return this.usersRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(intra_id: number): Promise<UsersEntity> {
+    const usersEntity = await this.usersRepository
+      .findOne(intra_id)
+      .then((v) => v);
+    console.log(usersEntity);
+    return usersEntity;
   }
 
-  update(id: number, updateUserDto: UpdateUsersDto) {
-    return `This action updates a #${id} user`;
+  async update(updateUserDto: UpdateUsersDto) {
+    return `This action updates a #${updateUserDto.intra_id} user`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} user`;
   }
 }
