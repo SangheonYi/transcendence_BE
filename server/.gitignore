@@ -1,7 +1,7 @@
 # compiled output
 /dist
 package-lock.json
-/node_modules
+# /node_modules # wsl has npm install issue
 
 # Logs
 logs

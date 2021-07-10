@@ -1,8 +1,8 @@
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('Users')
 export class UsersEntity {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   intra_id: string;
 
   @Column({ nullable: true })
@@ -23,15 +23,15 @@ export class UsersEntity {
   @Column({ default: 1000 })
   ladder_level: number;
 
-  @Column("simple-array", { nullable: true })
+  @Column('simple-array', { nullable: true })
   friend_list: string[];
 
-  @Column("simple-array", { nullable: true })
+  @Column('simple-array', { nullable: true })
   match_history: string[];
 
-  @Column("simple-array", { nullable: true })
+  @Column('simple-array', { nullable: true })
   block_list: string[];
 
-  @Column("simple-array", { nullable: true })
+  @Column('simple-array', { nullable: true })
   chat_room: string[];
 }
