@@ -1,12 +1,14 @@
-POST http://localhost:8080/users HTTP/1.1
-Content-Type: application/json
+# POST http://localhost:8080/users HTTP/1.1
+# Content-Type: application/json
 
-{
-	"intra_id": "sayi",
-	"nickname": "saaayi",
-	"auth_token" : "sayi@@mail",
-	"icon_path" : "sayi is sayi"
-}
+# {
+# 	"intra_id": "sayi",
+# 	"nickname": "saaayi",
+# 	"auth_token" : "sayi@@mail",
+# 	"icon_path" : "sayi is sayi"
+# }
 
-# GET http://localhost:8080/RoomList HTTP/1.1
+DELETE http://localhost:8080/users/clears HTTP/1.1
+
+# GET http://localhost:8080/users HTTP/1.1
 

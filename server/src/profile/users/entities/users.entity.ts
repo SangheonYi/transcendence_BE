@@ -1,11 +1,11 @@
 import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity('Users')
+@Entity('users')
 export class UsersEntity {
   @PrimaryColumn()
   intra_id: string;
 
-  @Column({ nullable: true })
+  @Column()
   nickname: string;
 
   @Column({ nullable: true })
