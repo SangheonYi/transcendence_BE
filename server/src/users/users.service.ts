@@ -4,21 +4,14 @@ import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersEntity } from './entities/users.entity';
 import { UsersRepository } from './users.repository';
 import { AlreadyExistException } from './execptions/already-exist-exception';
+import { NotExistException } from './execptions/not-exist-exception';
+
 // import { validate } from 'class-validator';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
   private readonly logger = new Logger(UsersService.name);
-
-  existCheck = async (field: string, target: object, value: any) => {
-    const result = await this.usersRepository.findOne(target);
-    if (result) {
-      const error = `${field} dup: ${value} is already exist`;
-      throw new AlreadyExistException(error);
-    }
-    return result;
-  };
 
   async create(createUsersDto: CreateUsersDto) {
     let newUser = new UsersEntity();
@@ -27,8 +20,8 @@ export class UsersService {
     newUser.nickname = nickname;
     newUser.auth_token = auth_token;
     newUser.icon = icon;
-    await this.existCheck('intra_id', { intra_id }, intra_id);
-    await this.existCheck('nickname', { nickname }, nickname);
+    await this.duplicateCheck('intra_id', { intra_id }, intra_id);
+    await this.duplicateCheck('nickname', { nickname }, nickname);
     const usersEntity = await this.usersRepository.save(newUser).then((v) => v);
     return usersEntity;
   }
@@ -49,8 +42,10 @@ export class UsersService {
     return await this.usersRepository.findOne({ nickname });
   }
 
-  update(id: number, updateUserDto: UpdateUsersDto) {
-    return `This action updates a #${id} user`;
+  async update(intra_id: string, updateUserDto: UpdateUsersDto) {
+    await this.existCheck('intra_id', { intra_id }, intra_id);
+    const updateResult = this.usersRepository.update(intra_id, updateUserDto);
+    return updateResult;
   }
 
   async remove(nickname: string) {
@@ -68,17 +63,25 @@ export class UsersService {
   }
 
   async clear() {
-    const result = await this.usersRepository
-      .query(`DELETE FROM users;`)
-      .then((v) => v)
-      .catch((error) => {
-        console.log('clear faild');
-        console.log(error);
-      });
-    this.logger.debug('is cleard?');
-    console.log('is cleard?');
-    console.log(result);
-
-    return result;
+    await this.usersRepository.clear();
+    return 'clear';
   }
+
+  duplicateCheck = async (field: string, target: object, value: string) => {
+    const result = await this.usersRepository.findOne(target);
+    if (result) {
+      const error = `${field}: ${value} is already exist`;
+      throw new AlreadyExistException(error);
+    }
+    return result;
+  };
+
+  existCheck = async (field: string, target: object, value: string) => {
+    const result = await this.usersRepository.findOne(target);
+    if (result == undefined) {
+      const error = `${field}: ${value} is not exist`;
+      throw new NotExistException(error);
+    }
+    return result;
+  };
 }

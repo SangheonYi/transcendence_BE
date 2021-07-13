@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RoomModule } from '../roomList/roomList.module';
 import { chat_room } from '../roomList/roomList.entity';
 import { ProfileModule } from '../profile/profile.module';
+import { AdminModule } from 'src/admin/admin.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ProfileModule } from '../profile/profile.module';
     }),
     RoomModule,
     ProfileModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppGateway],
