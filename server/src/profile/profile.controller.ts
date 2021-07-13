@@ -7,12 +7,12 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { CreateUsersDto } from './dto/create-users.dto';
-import { UpdateUsersDto } from './dto/update-users.dto';
+import { UsersService } from '../users/users.service';
+import { CreateUsersDto } from '../users/dto/create-users.dto';
+import { UpdateUsersDto } from '../users/dto/update-users.dto';
 
-@Controller('users')
-export class UsersController {
+@Controller('profile')
+export class ProfileController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
@@ -33,6 +33,10 @@ export class UsersController {
     return this.usersService.findByIntraId(intra_id);
   }
 
+  @Post('indepen')
+  findOne(@Body() body) {
+    return this.usersService.findOne(body);
+  }
   /*   @Get(':id')
   findByNickname(@Param('id') nickname: string) {
     console.log('find one nickname');

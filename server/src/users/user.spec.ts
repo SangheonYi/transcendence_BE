@@ -1,5 +1,5 @@
 import axios from 'axios';
-const app = 'http://localhost:8080/users';
+const app = 'http://localhost:8080/profile';
 
 const parseAxios = (v) => {
   const pars = {
@@ -38,7 +38,7 @@ describe('User create 테스트', () => {
     intra_id: 'sayi',
     nickname: 'intra_dup',
     auth_token: 'sayi token',
-    icon_path: 'sayi is sayi',
+    icon: 'sayi is sayi',
   };
   beforeEach(async () => await axios.delete(`${app}/clear`));
 

@@ -4,7 +4,6 @@ import { UpdateUsersDto } from './dto/update-users.dto';
 import { UsersEntity } from './entities/users.entity';
 import { UsersRepository } from './users.repository';
 import { AlreadyExistException } from './execptions/already-exist-exception';
-import { resourceLimits } from 'worker_threads';
 // import { validate } from 'class-validator';
 
 @Injectable()
@@ -23,11 +22,11 @@ export class UsersService {
 
   async create(createUsersDto: CreateUsersDto) {
     let newUser = new UsersEntity();
-    const { intra_id, nickname, auth_token, icon_path } = createUsersDto;
+    const { intra_id, nickname, auth_token, icon } = createUsersDto;
     newUser.intra_id = intra_id;
     newUser.nickname = nickname;
     newUser.auth_token = auth_token;
-    newUser.icon_path = icon_path;
+    newUser.icon = icon;
     await this.existCheck('intra_id', { intra_id }, intra_id);
     await this.existCheck('nickname', { nickname }, nickname);
     const usersEntity = await this.usersRepository.save(newUser).then((v) => v);
@@ -38,12 +37,16 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findByIntraId(intra_id: string) {
-    return this.usersRepository.findOne({ intra_id });
+  async findOne(body: object) {
+    return await this.usersRepository.findOne(body);
   }
 
-  findByNickname(nickname: string) {
-    return this.usersRepository.findOne({ nickname });
+  async findByIntraId(intra_id: string) {
+    return await this.usersRepository.findOne({ intra_id });
+  }
+
+  async findByNickname(nickname: string) {
+    return await this.usersRepository.findOne({ nickname });
   }
 
   update(id: number, updateUserDto: UpdateUsersDto) {

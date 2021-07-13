@@ -8,5 +8,5 @@ export class CreateUsersDto {
   @IsNotEmpty()
   readonly auth_token: string;
   @IsNotEmpty()
-  readonly icon_path: string;
+  readonly icon: string;
 }

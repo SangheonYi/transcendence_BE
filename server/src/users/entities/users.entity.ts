@@ -12,7 +12,7 @@ export class UsersEntity {
   state: string;
 
   @Column()
-  icon_path: string;
+  icon: string;
 
   @Column()
   auth_token: string;
