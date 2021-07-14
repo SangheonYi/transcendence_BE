@@ -27,11 +27,14 @@ export class ProfileController {
   //   return this.usersService.findAll();
   // }
 
-  // @Get(':id')
-  // findByIntraId(@Param('id') intra_id: string) {
-  //   // console.log('find one intra_id');
-  //   return this.usersService.findByIntraId(intra_id);
-  // }
+  @Get(':myID/:otherID')
+  findByIntraId(
+    @Param('myID') myID: string,
+    @Param('otherID') otherID: string,
+  ) {
+    console.log('find one intra_id');
+    return this.usersService.findProfileById(myID, otherID);
+  }
 
   // @Post('indepen')
   // findOne(@Body() body) {

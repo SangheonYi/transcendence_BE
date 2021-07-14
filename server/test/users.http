@@ -1,13 +1,15 @@
-POST http://localhost:8080/admin/indepen HTTP/1.1
+POST http://localhost:8080/admin HTTP/1.1
 Content-Type: application/json
 
 {
-
+	"intra_id": "sayi2",
+	"nickname": "saayi2",
 	"auth_token" : "sayi@@mail",
-	"icon" : "sayi is sayi"
+	"icon" : "sayi is sayi",
+	"friend_list": ["taekkim", "jinkim"]
 }
 
 # DELETE http://localhost:8080/admin/clear HTTP/1.1
 
-# GET http://localhost:8080/users HTTP/1.1
+# GET http://localhost:8080/admin HTTP/1.1
 

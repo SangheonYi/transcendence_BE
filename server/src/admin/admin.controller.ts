@@ -21,6 +21,16 @@ export class AdminController {
     return this.usersService.create(createUserDto);
   }
 
+  @Patch(':intra_id')
+  update(
+    @Param('intra_id') intra_id: string,
+    @Body() updateUserDto: UpdateUsersDto,
+  ) {
+    // console.log('update');
+    return this.usersService.update(intra_id, updateUserDto);
+  }
+
+  // below apis are for test
   @Get()
   findAll() {
     // console.log('find all');
@@ -31,20 +41,6 @@ export class AdminController {
   findByIntraId(@Param('id') intra_id: string) {
     // console.log('find one intra_id');
     return this.usersService.findByIntraId(intra_id);
-  }
-
-  @Post('indepen')
-  findOne(@Body() body) {
-    return this.usersService.findOne(body);
-  }
-
-  @Patch(':intra_id')
-  update(
-    @Param('intra_id') intra_id: string,
-    @Body() updateUserDto: UpdateUsersDto,
-  ) {
-    // console.log('update');
-    return this.usersService.update(intra_id, updateUserDto);
   }
 
   @Delete('/clear')

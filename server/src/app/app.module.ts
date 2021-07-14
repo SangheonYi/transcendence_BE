@@ -6,6 +6,7 @@ import { RoomModule } from '../roomList/roomList.module';
 import { chat_room } from '../roomList/roomList.entity';
 import { ProfileModule } from '../profile/profile.module';
 import { AdminModule } from 'src/admin/admin.module';
+import { MatchHistoryModule } from 'src/match-history/match-history.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { AdminModule } from 'src/admin/admin.module';
     RoomModule,
     ProfileModule,
     AdminModule,
+    MatchHistoryModule,
   ],
   controllers: [AppController],
   providers: [AppGateway],
