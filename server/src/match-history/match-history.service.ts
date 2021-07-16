@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMatchHistoryDto } from './dto/create-match-history.dto';
 import { UpdateMatchHistoryDto } from './dto/update-match-history.dto';
+import { MatchHistory } from './entities/match-history.entity';
 import { MatchHistoryRepository } from './match-history.repository';
 
 @Injectable()
@@ -8,12 +9,15 @@ export class MatchHistoryService {
   constructor(
     private readonly MatchHistoryRepository: MatchHistoryRepository,
   ) {}
-  create(createMatchHistoryDto: CreateMatchHistoryDto) {
-    return 'This action adds a new matchHistory';
+  async create(createMatchHistoryDto: CreateMatchHistoryDto) {
+    const { p1_id, p2_id, winner } = createMatchHistoryDto;
+    const newMatchHistory = this.createMatchHistory(createMatchHistoryDto);
+    const result = await this.MatchHistoryRepository.save(newMatchHistory);
+    return result;
   }
 
-  findAll() {
-    return `This action returns all matchHistory`;
+  async findAll() {
+    return await this.MatchHistoryRepository.find();
   }
 
   findOne(id: number) {
@@ -24,7 +28,16 @@ export class MatchHistoryService {
     return `This action updates a #${id} matchHistory`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} matchHistory`;
+  async clear() {
+    return await this.MatchHistoryRepository.clear();
+  }
+
+  createMatchHistory(createMatchHistoryDto: CreateMatchHistoryDto) {
+    const { p1_id, p2_id, winner } = createMatchHistoryDto;
+    let newMatchHistory = new MatchHistory();
+    newMatchHistory.p1_id = p1_id;
+    newMatchHistory.p2_id = p2_id;
+    newMatchHistory.winner = winner;
+    return newMatchHistory;
   }
 }

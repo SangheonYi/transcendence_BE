@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { testPostStatus, testPatchStatus } from '../../test/test-util.spec';
+import {
+  testPostStatus,
+  testPutStatus,
+  testPatchStatus,
+} from '../../test/test-util.spec';
 const url = 'http://localhost:8080/admin';
 let user = {
   intra_id: 'sayi',
@@ -40,15 +44,23 @@ describe('User create 테스트', () => {
 });
 
 describe('User update 테스트', () => {
-  const updateBody = { nickname: 'update success', icon: user.icon };
+  const updateBody = {
+    intra_id: user.intra_id,
+    nickname: 'update success',
+    icon: user.icon,
+  };
   beforeEach(async () => {
     await axios.delete(`${url}/clear`);
     await axios.post(url, user);
   });
 
   it('intra_id 존재 확인', async () => {
-    await testPatchStatus(`${url}/${user.intra_id}`, updateBody, 200);
-    const fail = await testPatchStatus(`${url}/${user.icon}`, updateBody, 400);
+    await testPatchStatus(url, updateBody, 200);
+    const fail = await testPatchStatus(
+      url,
+      { ...updateBody, intra_id: user.icon },
+      400,
+    );
     expect(fail).toBe(`intra_id: ${user.icon} is not exist`);
   });
 });

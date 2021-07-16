@@ -1,6 +1,6 @@
-import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity('users')
+@Entity('Users')
 export class UsersEntity {
   @PrimaryColumn()
   intra_id: string;

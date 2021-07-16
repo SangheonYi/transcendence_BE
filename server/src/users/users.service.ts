@@ -48,7 +48,8 @@ export class UsersService {
     return await this.usersRepository.findOne({ nickname });
   }
 
-  async update(intra_id: string, updateUserDto: UpdateUsersDto) {
+  async update(updateUserDto: UpdateUsersDto) {
+    const { intra_id } = updateUserDto;
     await this.existCheck('intra_id', { intra_id }, intra_id);
     const updateResult = this.usersRepository.update(intra_id, updateUserDto);
     return updateResult;

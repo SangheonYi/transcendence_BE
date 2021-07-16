@@ -1,35 +1,11 @@
-import { BeforeInsert, Column, Entity, PrimaryColumn } from 'typeorm';
+import { IsNotEmpty } from 'class-validator';
 export class CreateMatchHistoryDto {
-  @PrimaryColumn()
-  intra_id: string;
+  @IsNotEmpty()
+  readonly p1_id: string;
 
-  @Column()
-  nickname: string;
+  @IsNotEmpty()
+  readonly p2_id: string;
 
-  @Column({ nullable: true })
-  state: string;
-
-  @Column()
-  icon: string;
-
-  @Column()
-  auth_token: string;
-
-  @Column({ nullable: true })
-  auth_second: string;
-
-  @Column({ default: 1000 })
-  ladder_level: number;
-
-  @Column('simple-array', { nullable: true })
-  friend_list: string[];
-
-  @Column('simple-array', { nullable: true })
-  match_history: string[];
-
-  @Column('simple-array', { nullable: true })
-  block_list: string[];
-
-  @Column('simple-array', { nullable: true })
-  chat_room: string[];
+  @IsNotEmpty()
+  readonly winner: string;
 }

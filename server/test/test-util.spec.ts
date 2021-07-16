@@ -25,6 +25,20 @@ const testPostStatus = async (
   return 'OK';
 };
 
+const testPutStatus = async (
+  url: string,
+  body: object,
+  expectStatus: number,
+) => {
+  const result = await axios
+    .put(url, body)
+    .then((v) => v)
+    .catch((reason) => reason.response);
+  expect(result.status).toBe(expectStatus);
+  if (result.data) return result.data.error;
+  return 'OK';
+};
+
 const testPatchStatus = async (
   url: string,
   body: object,
@@ -39,4 +53,4 @@ const testPatchStatus = async (
   return 'OK';
 };
 
-export { testPostStatus, testPatchStatus };
+export { testPostStatus, testPatchStatus, testPutStatus };

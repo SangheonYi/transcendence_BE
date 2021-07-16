@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { CreateUsersDto } from '../users/dto/create-users.dto';
@@ -21,13 +22,10 @@ export class AdminController {
     return this.usersService.create(createUserDto);
   }
 
-  @Patch(':intra_id')
-  update(
-    @Param('intra_id') intra_id: string,
-    @Body() updateUserDto: UpdateUsersDto,
-  ) {
+  @Patch()
+  update(@Body() updateUserDto: UpdateUsersDto) {
     // console.log('update');
-    return this.usersService.update(intra_id, updateUserDto);
+    return this.usersService.update(updateUserDto);
   }
 
   // below apis are for test

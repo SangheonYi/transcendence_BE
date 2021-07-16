@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { MatchHistoryService } from './match-history.service';
 import { CreateMatchHistoryDto } from './dto/create-match-history.dto';
 import { UpdateMatchHistoryDto } from './dto/update-match-history.dto';
@@ -8,13 +16,13 @@ export class MatchHistoryController {
   constructor(private readonly matchHistoryService: MatchHistoryService) {}
 
   @Post()
-  create(@Body() createMatchHistoryDto: CreateMatchHistoryDto) {
-    return this.matchHistoryService.create(createMatchHistoryDto);
+  async create(@Body() createMatchHistoryDto: CreateMatchHistoryDto) {
+    return await this.matchHistoryService.create(createMatchHistoryDto);
   }
 
   @Get()
-  findAll() {
-    return this.matchHistoryService.findAll();
+  async findAll() {
+    return await this.matchHistoryService.findAll();
   }
 
   @Get(':id')
@@ -23,12 +31,15 @@ export class MatchHistoryController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMatchHistoryDto: UpdateMatchHistoryDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateMatchHistoryDto: UpdateMatchHistoryDto,
+  ) {
     return this.matchHistoryService.update(+id, updateMatchHistoryDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.matchHistoryService.remove(+id);
+  @Delete()
+  async clear() {
+    return await this.matchHistoryService.clear();
   }
 }
