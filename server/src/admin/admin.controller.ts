@@ -35,12 +35,6 @@ export class AdminController {
     return this.usersService.findAll();
   }
 
-  @Get(':id')
-  findByIntraId(@Param('id') intra_id: string) {
-    // console.log('find one intra_id');
-    return this.usersService.findByIntraId(intra_id);
-  }
-
   @Delete('/clear')
   clear() {
     // console.log('clear');

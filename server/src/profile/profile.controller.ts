@@ -14,33 +14,19 @@ import { ProfileService } from './profile.service';
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
-  // @Post()
-  // create(@Body() createUserDto: CreateUsersDto) {
-  //   // console.log('create');
-  //   return this.profileService.create(createUserDto);
-  // }
-
   @Get()
-  findUserById(@Query('intra_id') para: string) {
-    // const { intra_id } = para;
-    // console.log('find all');
-    console.log(para);
-    // return this.profileService.findUserById(intra_id);
+  findProfileByIntraId(
+    @Query() para,
+    // @Query('otherID') otherID: string,
+  ) {
+    const { myID, otherID } = para;
+    return this.profileService.findProfileById(myID, otherID);
   }
 
-  @Get()
+  @Get('all')
   findAll() {
     // console.log('find all');
     return this.profileService.findAll();
-  }
-
-  @Get(':myID/:otherID')
-  findProfileByIntraId(
-    @Param('myID') myID: string,
-    @Param('otherID') otherID: string,
-  ) {
-    console.log('find one intra_id');
-    return this.profileService.findProfileById(myID, otherID);
   }
 
   // @Post('indepen')

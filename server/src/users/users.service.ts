@@ -20,7 +20,7 @@ export class UsersService {
     newUser.nickname = nickname;
     newUser.auth_token = auth_token;
     newUser.icon = icon;
-    newUser.friend_list = ['aaa', 'bbb'];
+    newUser.friend_list = ['taekim', 'jinkim'];
     await this.duplicateCheck('intra_id', { intra_id }, intra_id);
     await this.duplicateCheck('nickname', { nickname }, nickname);
     const usersEntity = await this.usersRepository.save(newUser).then((v) => v);
@@ -31,17 +31,8 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  async findProfileById(myID: string, otherID: string) {
-    // {winner:0, p1, p2}
-    // const profile = { list: [], friend: false, block: false, win: 0, lose: 0 };
-    // const myIDUser = await this.existCheck('intra_id', { myID }, myID);
-    // myIDUser.match_history
-    // const otherIDUser = await this.existCheck('intra_id', { otherID }, otherID);
-    return 'developing';
-  }
-
   async findByIntraId(intra_id: string) {
-    return await this.usersRepository.findOne({ intra_id });
+    return await this.existCheck('intra_id', { intra_id }, intra_id);
   }
 
   async findByNickname(nickname: string) {

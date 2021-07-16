@@ -13,16 +13,35 @@ export class ProfileService {
     private readonly matchHistoryService: MatchHistoryService,
     private readonly usersService: UsersService,
   ) {}
-  async findProfileById(myID: string, otherID: string) {}
+  async findProfileById(myID: string, otherID: string) {
+    let profile = { list: [], friend: false, block: false, win: 0, lose: 0 };
+    const { friend_list, block_list } = await this.usersService.findByIntraId(
+      myID,
+    );
+    const { match_history } = await this.usersService.findByIntraId(otherID);
+
+    profile.friend = this.nullCheckInclude(friend_list, otherID);
+    profile.block = this.nullCheckInclude(block_list, otherID);
+    profile.list = match_history;
+    return profile;
+  }
+
   async findUserById(intra_id: string) {
     return await this.usersService.findByIntraId(intra_id);
   }
 
   async findAll() {
-    return await this.matchHistoryService.findAll();
+    const users = await this.usersService.findAll();
+    const history = await this.matchHistoryService.findAll();
+    return { users, history };
   }
 
   async clear() {
     return await this.matchHistoryService.clear();
+  }
+
+  nullCheckInclude(list: string[], intra_id: string): boolean {
+    if (list) return list.includes(intra_id);
+    return false;
   }
 }

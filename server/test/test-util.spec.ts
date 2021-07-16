@@ -47,7 +47,7 @@ const testPatchStatus = async (
   const result = await axios
     .patch(url, body)
     .then((v) => v)
-    .catch((reason) => parseAxios(reason.response));
+    .catch((reason) => reason.response);
   expect(result.status).toBe(expectStatus);
   if (result.data) return result.data.error;
   return 'OK';

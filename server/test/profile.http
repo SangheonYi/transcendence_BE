@@ -1,15 +1,8 @@
-POST http://localhost:8080/profile HTTP/1.1
-Content-Type: application/json
+GET http://localhost:8080/profile?myID=sayi&otherID=aaa HTTP/1.1
 
-{
-	"p1_id": "sayi2",
-	"p2_id": "saayi2",
-	"winner" : "sayi2"
-}
+
+
+# GET http://localhost:8080/profile HTTP/1.1
+# GET http://localhost:8080/profile/all HTTP/1.1
 
 # DELETE http://localhost:8080/profile/clear HTTP/1.1
-
-# GET http://localhost:8080/profile HTTP/1.1
-# GET http://localhost:8080/profile?intra_id=sayi&p=a HTTP/1.1
-# GET http://localhost:8080/profile HTTP/1.1
-
