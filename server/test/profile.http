@@ -1,4 +1,4 @@
-GET http://localhost:8080/profile?myID=sayi&otherID=aaa HTTP/1.1
+GET http://localhost:8080/profile?myID=jinkim&otherID=taekim HTTP/1.1
 
 
 

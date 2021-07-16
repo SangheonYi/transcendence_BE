@@ -7,17 +7,21 @@ import { MatchHistoryRepository } from './match-history.repository';
 @Injectable()
 export class MatchHistoryService {
   constructor(
-    private readonly MatchHistoryRepository: MatchHistoryRepository,
+    private readonly matchHistoryRepository: MatchHistoryRepository,
   ) {}
   async create(createMatchHistoryDto: CreateMatchHistoryDto) {
-    const { p1_id, p2_id, winner } = createMatchHistoryDto;
     const newMatchHistory = this.createMatchHistory(createMatchHistoryDto);
-    const result = await this.MatchHistoryRepository.save(newMatchHistory);
+    const result = await this.matchHistoryRepository.save(newMatchHistory);
     return result;
   }
 
+  async findById(intra_id: string) {
+    const p1_list = await this.matchHistoryRepository.find({ p1_id: intra_id });
+    const p2_list = await this.matchHistoryRepository.find({ p2_id: intra_id });
+    return p1_list.concat(p2_list);
+  }
   async findAll() {
-    return await this.MatchHistoryRepository.find();
+    return await this.matchHistoryRepository.find();
   }
 
   findOne(id: number) {
@@ -29,7 +33,7 @@ export class MatchHistoryService {
   }
 
   async clear() {
-    return await this.MatchHistoryRepository.clear();
+    return await this.matchHistoryRepository.clear();
   }
 
   createMatchHistory(createMatchHistoryDto: CreateMatchHistoryDto) {

@@ -76,7 +76,7 @@ export class UsersService {
 
   existCheck = async (field: string, target: object, value: string) => {
     const result = await this.usersRepository.findOne(target);
-    if (result == undefined) {
+    if (result === undefined) {
       const error = `${field}: ${value} is not exist`;
       throw new NotExistException(error);
     }

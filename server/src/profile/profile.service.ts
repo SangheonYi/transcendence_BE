@@ -14,16 +14,14 @@ export class ProfileService {
     private readonly usersService: UsersService,
   ) {}
   async findProfileById(myID: string, otherID: string) {
-    let profile = { list: [], friend: false, block: false, win: 0, lose: 0 };
     const { friend_list, block_list } = await this.usersService.findByIntraId(
       myID,
     );
-    const { match_history } = await this.usersService.findByIntraId(otherID);
+    const friend = this.nullCheckInclude(friend_list, otherID);
+    const block = this.nullCheckInclude(block_list, otherID);
+    const profile = await this.checkWin(otherID);
 
-    profile.friend = this.nullCheckInclude(friend_list, otherID);
-    profile.block = this.nullCheckInclude(block_list, otherID);
-    profile.list = match_history;
-    return profile;
+    return { ...profile, friend, block };
   }
 
   async findUserById(intra_id: string) {
@@ -43,5 +41,25 @@ export class ProfileService {
   nullCheckInclude(list: string[], intra_id: string): boolean {
     if (list) return list.includes(intra_id);
     return false;
+  }
+
+  async checkWin(intra_id: string) {
+    let profile = { list: [], win: 0, lose: 0 };
+    const total_history = await this.matchHistoryService.findById(intra_id);
+
+    if (total_history) {
+      let count = 5;
+      for (let index = total_history.length - 1; index >= 0; index--) {
+        const { p1_id, p2_id, winner } = total_history[index];
+        let win = false;
+        if (winner === intra_id) {
+          profile.win++;
+          win = true;
+        }
+        if (count-- > 0) profile.list.push({ p1_id, p2_id, win });
+      }
+      profile.lose = total_history.length - profile.win;
+    }
+    return profile;
   }
 }

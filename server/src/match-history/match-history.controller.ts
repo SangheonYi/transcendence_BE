@@ -20,6 +20,11 @@ export class MatchHistoryController {
     return await this.matchHistoryService.create(createMatchHistoryDto);
   }
 
+  // behind method no matter on real service
+  @Get('findMatchHistrory')
+  async findMatchHistrory() {
+    return await this.matchHistoryService.findById('taekim');
+  }
   @Get()
   async findAll() {
     return await this.matchHistoryService.findAll();
