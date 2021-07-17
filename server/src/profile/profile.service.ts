@@ -14,14 +14,17 @@ export class ProfileService {
     private readonly usersService: UsersService,
   ) {}
   async findProfileById(myID: string, otherID: string) {
-    const { friend_list, block_list } = await this.usersService.findByIntraId(
-      myID,
-    );
-    const friend = this.nullCheckInclude(friend_list, otherID);
-    const block = this.nullCheckInclude(block_list, otherID);
-    const profile = await this.checkWin(otherID);
-
-    return { ...profile, friend, block };
+    let profile = {};
+    if (myID !== otherID) {
+      const { friend_list, block_list } = await this.usersService.findByIntraId(
+        myID,
+      );
+      const friend = this.nullCheckInclude(friend_list, otherID);
+      const block = this.nullCheckInclude(block_list, otherID);
+      profile = { friend, block };
+    }
+    const { list, win, lose } = await this.checkWin(otherID);
+    return { ...profile, list, win, lose };
   }
 
   async findUserById(intra_id: string) {
@@ -51,12 +54,14 @@ export class ProfileService {
       let count = 5;
       for (let index = total_history.length - 1; index >= 0; index--) {
         const { p1_id, p2_id, winner } = total_history[index];
+        let player_id = p1_id === intra_id ? p2_id : p1_id;
+
         let win = false;
         if (winner === intra_id) {
           profile.win++;
           win = true;
         }
-        if (count-- > 0) profile.list.push({ p1_id, p2_id, win });
+        if (count-- > 0) profile.list.push({ player_id, win });
       }
       profile.lose = total_history.length - profile.win;
     }

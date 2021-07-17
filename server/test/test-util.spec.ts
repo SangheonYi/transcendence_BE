@@ -10,6 +10,19 @@ const parseAxios = (v) => {
   console.log(pars);
   return v;
 };
+const testGetStatus = async (
+  url: string,
+  body: object,
+  expectStatus: number,
+) => {
+  const result = await axios
+    .post(url, body)
+    .then((v) => v)
+    .catch((reason) => reason.response);
+  expect(result.status).toBe(expectStatus);
+  if (result.data) return result.data.error;
+  return 'OK';
+};
 
 const testPostStatus = async (
   url: string,
@@ -53,4 +66,4 @@ const testPatchStatus = async (
   return 'OK';
 };
 
-export { testPostStatus, testPatchStatus, testPutStatus };
+export { testPostStatus, testPatchStatus, testPutStatus, testGetStatus };

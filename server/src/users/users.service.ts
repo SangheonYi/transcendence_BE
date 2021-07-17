@@ -20,7 +20,6 @@ export class UsersService {
     newUser.nickname = nickname;
     newUser.auth_token = auth_token;
     newUser.icon = icon;
-    newUser.friend_list = ['taekim', 'jinkim'];
     await this.duplicateCheck('intra_id', { intra_id }, intra_id);
     await this.duplicateCheck('nickname', { nickname }, nickname);
     const usersEntity = await this.usersRepository.save(newUser).then((v) => v);
