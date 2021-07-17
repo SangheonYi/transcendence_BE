@@ -32,6 +32,10 @@ export class ProfileService {
     return await this.usersService.addFriend(myID, otherID);
   }
 
+  async addBlock(myID: string, otherID: string) {
+    return await this.usersService.addBlock(myID, otherID);
+  }
+
   async findAll() {
     const users = await this.usersService.findAll();
     const history = await this.matchHistoryService.findAll();

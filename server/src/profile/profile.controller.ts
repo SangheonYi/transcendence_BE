@@ -9,7 +9,10 @@ import {
   Query,
 } from '@nestjs/common';
 import { ProfileService } from './profile.service';
+// id에 대응하는 유저 블럭요청
+// post profile/block  withcredentials: true
 
+// body: {myID, otherID}
 @Controller('profile')
 export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
@@ -24,6 +27,12 @@ export class ProfileController {
   addFriend(@Body() body) {
     const { myID, otherID } = body;
     return this.profileService.addFriend(myID, otherID);
+  }
+
+  @Post('block')
+  addBlock(@Body() body) {
+    const { myID, otherID } = body;
+    return this.profileService.addBlock(myID, otherID);
   }
 
   // behind functions are for develop

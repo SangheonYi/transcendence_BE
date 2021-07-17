@@ -26,8 +26,8 @@ export class UsersService {
     return usersEntity;
   }
 
-  findAll() {
-    return this.usersRepository.find();
+  async findAll() {
+    return await this.usersRepository.find();
   }
 
   async findByIntraId(intra_id: string) {
@@ -51,9 +51,23 @@ export class UsersService {
       { intra_id: myID },
       myID,
     );
-    if (friend_list && !friend_list.includes(otherID))
-      friend_list.push(otherID);
+    if (friend_list) {
+      if (!friend_list.includes(otherID)) friend_list.push(otherID);
+    } else friend_list = [otherID];
     return this.usersRepository.update(myID, { friend_list });
+  }
+
+  async addBlock(myID: string, otherID: string) {
+    let { block_list } = await this.existCheck(
+      'intra_id',
+      { intra_id: myID },
+      myID,
+    );
+    if (block_list) {
+      if (!block_list.includes(otherID)) block_list.push(otherID);
+    } else block_list = [otherID];
+
+    return this.usersRepository.update(myID, { block_list });
   }
 
   async remove(nickname: string) {
@@ -74,6 +88,8 @@ export class UsersService {
     await this.usersRepository.clear();
     return 'clear';
   }
+
+  // helper functions
 
   duplicateCheck = async (field: string, target: object, value: string) => {
     const result = await this.usersRepository.findOne(target);
