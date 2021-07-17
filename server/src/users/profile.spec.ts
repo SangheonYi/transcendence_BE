@@ -58,6 +58,8 @@ describe('profile create 테스트', () => {
     await axios.delete(`${host}/match-history`); // clear match-history table
     await axios.delete(`${host}/admin/clear`); // clear user table
     await axios.post(`${host}/admin`, sayi); // clear user table
+    await axios.patch(`${host}/admin`, sayi); // clear user table
+    await axios.post(`${host}/admin`, sayi); // clear user table
   });
 
   it('intra_id 중복 확인', async () =>

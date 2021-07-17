@@ -1,5 +1,11 @@
-GET http://localhost:8080/profile?myID=jinkim&otherID=taekim HTTP/1.1
+# GET http://localhost:8080/profile?myID=jinkim&otherID=taekim HTTP/1.1
+POST http://localhost:8080/profile/friend HTTP/1.1
+Content-Type: application/json
 
+{
+	"myID":"jinkim",
+	"otherID":"sayi"
+}
 
 
 # GET http://localhost:8080/profile HTTP/1.1

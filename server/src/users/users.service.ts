@@ -45,6 +45,17 @@ export class UsersService {
     return updateResult;
   }
 
+  async addFriend(myID: string, otherID: string) {
+    let { friend_list } = await this.existCheck(
+      'intra_id',
+      { intra_id: myID },
+      myID,
+    );
+    if (friend_list && !friend_list.includes(otherID))
+      friend_list.push(otherID);
+    return this.usersRepository.update(myID, { friend_list });
+  }
+
   async remove(nickname: string) {
     const byNick = await this.usersRepository.findOne({
       nickname: 'intra_dup',

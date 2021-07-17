@@ -15,24 +15,23 @@ export class ProfileController {
   constructor(private readonly profileService: ProfileService) {}
 
   @Get()
-  findProfileByIntraId(
-    @Query() para,
-    // @Query('otherID') otherID: string,
-  ) {
+  findProfileByIntraId(@Query() para) {
     const { myID, otherID } = para;
     return this.profileService.findProfileById(myID, otherID);
   }
 
+  @Post('friend')
+  addFriend(@Body() body) {
+    const { myID, otherID } = body;
+    return this.profileService.addFriend(myID, otherID);
+  }
+
+  // behind functions are for develop
   @Get('all')
   findAll() {
     // console.log('find all');
     return this.profileService.findAll();
   }
-
-  // @Post('indepen')
-  // findOne(@Body() body) {
-  //   return this.profileService.findOne(body);
-  // }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateUserDto: UpdateUsersDto) {

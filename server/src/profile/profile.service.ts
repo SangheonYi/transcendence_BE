@@ -13,6 +13,7 @@ export class ProfileService {
     private readonly matchHistoryService: MatchHistoryService,
     private readonly usersService: UsersService,
   ) {}
+
   async findProfileById(myID: string, otherID: string) {
     let profile = {};
     if (myID !== otherID) {
@@ -27,8 +28,8 @@ export class ProfileService {
     return { ...profile, list, win, lose };
   }
 
-  async findUserById(intra_id: string) {
-    return await this.usersService.findByIntraId(intra_id);
+  async addFriend(myID: string, otherID: string) {
+    return await this.usersService.addFriend(myID, otherID);
   }
 
   async findAll() {
@@ -40,6 +41,8 @@ export class ProfileService {
   async clear() {
     return await this.matchHistoryService.clear();
   }
+
+  // helper functions
 
   nullCheckInclude(list: string[], intra_id: string): boolean {
     if (list) return list.includes(intra_id);

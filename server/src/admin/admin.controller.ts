@@ -23,7 +23,7 @@ export class AdminController {
   }
 
   @Patch()
-  update(@Body() updateUserDto: UpdateUsersDto) {
+  update(@Body() updateUserDto) {
     // console.log('update');
     return this.usersService.update(updateUserDto);
   }
