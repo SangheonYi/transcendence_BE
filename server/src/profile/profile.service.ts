@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMatchHistoryDto } from '../match-history/dto/create-match-history.dto';
-import { UpdateMatchHistoryDto } from '../match-history/dto/update-match-history.dto';
-import { MatchHistory } from '../match-history/entities/match-history.entity';
-import { MatchHistoryService } from '../match-history/match-history.service';
+import { CreateMatchHistoryDto } from '../match_history/dto/create-match-history.dto';
+import { UpdateMatchHistoryDto } from '../match_history/dto/update-match-history.dto';
+import { MatchHistory } from '../match_history/entities/match-history.entity';
+import { MatchHistoryService } from '../match_history/match_history.service';
 import { UsersService } from '../users/users.service';
 import { CreateUsersDto } from '../users/dto/create-users.dto';
 import { UpdateUsersDto } from '../users/dto/update-users.dto';
@@ -61,14 +61,15 @@ export class ProfileService {
       let count = 5;
       for (let index = total_history.length - 1; index >= 0; index--) {
         const { p1_id, p2_id, winner } = total_history[index];
-        let player_id = p1_id === intra_id ? p2_id : p1_id;
-
+        const player_id = p1_id === intra_id ? p2_id : p1_id;
+        const { nickname } = await this.usersService.findByIntraId(player_id);
         let win = false;
+
         if (winner === intra_id) {
           profile.win++;
           win = true;
         }
-        if (count-- > 0) profile.list.push({ player_id, win });
+        if (count-- > 0) profile.list.push({ nickname, win });
       }
       profile.lose = total_history.length - profile.win;
     }

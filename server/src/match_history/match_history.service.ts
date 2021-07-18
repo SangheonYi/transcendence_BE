@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateMatchHistoryDto } from './dto/create-match-history.dto';
 import { UpdateMatchHistoryDto } from './dto/update-match-history.dto';
 import { MatchHistory } from './entities/match-history.entity';
-import { MatchHistoryRepository } from './match-history.repository';
+import { MatchHistoryRepository } from './match_history.repository';
 
 @Injectable()
 export class MatchHistoryService {

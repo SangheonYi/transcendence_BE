@@ -6,8 +6,8 @@ import { RoomModule } from '../roomList/roomList.module';
 import { chat_room } from '../roomList/roomList.entity';
 import { ProfileModule } from '../profile/profile.module';
 import { AdminModule } from 'src/admin/admin.module';
-import { MatchHistoryModule } from 'src/match-history/match-history.module';
-
+import { MatchHistoryModule } from 'src/match_history/match_history.module';
+import { LogInOutModule } from 'src/login_out/login_out.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -24,6 +24,7 @@ import { MatchHistoryModule } from 'src/match-history/match-history.module';
     ProfileModule,
     AdminModule,
     MatchHistoryModule,
+    LogInOutModule,
   ],
   controllers: [AppController],
   providers: [AppGateway],
