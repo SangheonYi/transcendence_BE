@@ -35,7 +35,7 @@ export class UsersService {
   }
 
   async findByNickname(nickname: string) {
-    return await this.usersRepository.findOne({ nickname });
+    return await this.existCheck('nickname', { nickname }, nickname);
   }
 
   async update(updateUserDto: UpdateUsersDto) {

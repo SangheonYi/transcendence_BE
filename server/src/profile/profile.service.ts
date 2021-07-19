@@ -16,15 +16,15 @@ export class ProfileService {
 
   async findProfileById(myID: string, otherID: string) {
     let profile = {};
+    const { intra_id } = await this.usersService.findByNickname(otherID);
     if (myID !== otherID) {
-      const { friend_list, block_list } = await this.usersService.findByIntraId(
-        myID,
-      );
-      const friend = this.nullCheckInclude(friend_list, otherID);
-      const block = this.nullCheckInclude(block_list, otherID);
+      const { friend_list, block_list } =
+        await this.usersService.findByNickname(myID);
+      const friend = this.nullCheckInclude(friend_list, intra_id);
+      const block = this.nullCheckInclude(block_list, intra_id);
       profile = { friend, block };
     }
-    const { list, win, lose } = await this.checkWin(otherID);
+    const { list, win, lose } = await this.checkWin(intra_id);
     return { ...profile, list, win, lose };
   }
 

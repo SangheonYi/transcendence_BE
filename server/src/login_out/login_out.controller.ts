@@ -10,19 +10,19 @@ export class LogInOutController {
   @Get('in')
   findAll() {
     // console.log('find all');
-    return this.usersService.findAll();
+    // return this.usersService.findAll();
   }
 
   @Post('in')
   create(@Body() createUserDto: CreateUsersDto) {
     // console.log('create');
-    return this.usersService.create(createUserDto);
+    // return this.usersService.create(createUserDto);
   }
 
   @Patch('out')
   update(@Body() updateUserDto) {
     // console.log('update');
-    return this.usersService.update(updateUserDto);
+    // return this.usersService.update(updateUserDto);
   }
 
   // below apis are for test
